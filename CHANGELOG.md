@@ -3,6 +3,10 @@
 All notable changes to `mjaschen/strava-helper-firefox` will be documented in this file.
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [0.12.0] - 2020-09-20
+
+- Addet Floodprotection 
+
 ## [0.11.0] - 2020-09-04
 
 ### Fixed

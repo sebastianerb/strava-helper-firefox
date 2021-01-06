@@ -73,6 +73,7 @@ web-ext run --firefox=/Applications/FirefoxNightly.app/Contents/MacOS/firefox-bi
 
 - [saesh](https://github.com/saesh)
 - [Marcus Jaschen](https://www.marcusjaschen.de/)
+- [Sebastian Erb](https://sbstnerb.de/)
 
 ## Disclaimer
 

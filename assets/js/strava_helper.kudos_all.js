@@ -1,26 +1,45 @@
 strava_helper = (function (strava_helper) {
 
     strava_helper.kudos_all = {
+
+        count: 0,
+        kudoTimer: 0,
+
         getKudosAllImage: function () {
             return '<span title="Give Kudos to all visible activities!"></span>'
         },
 
         giveKudosToAll: function () {
-            var count = $('button.js-add-kudo').length
-            $('button.js-add-kudo').trigger('click')
-            strava_helper.kudos_all.showKudosCount(count, true)
-
-            var timer = window.setTimeout(function () {
-                strava_helper.kudos_all.resetKudosButton()
-            }, 3000)
+            console.log('giveKudosToAll')
+            strava_helper.kudos_all.giveNextKudo()
         },
 
-        showKudosCount: function (count) {
-            if (count === 0) {
+        giveNextKudo: function () {
+
+            strava_helper.kudos_all.count = $('button.js-add-kudo').length
+
+            if(strava_helper.kudos_all.count>0){
+
+                $('button.js-add-kudo').firstChild().trigger('click')
+                strava_helper.kudos_all.showKudosCount()
+                strava_helper.kudos_all.kudoTimer = window.setTimeout(strava_helper.kudos_all.giveNextKudo, 1000)
+
+            }else{
+                if(timer!==null){
+                    clearTimeout(timer)
+                }
+                let timer = window.setTimeout(function () {
+                    strava_helper.kudos_all.resetKudosButton()
+                }, 3000)
+            }
+        },
+
+        showKudosCount: function () {
+            if (strava_helper.kudos_all.count === 0) {
                 return
             }
             $('#strava-helper-kudos-all-button')
-                .text(count.toString() + 'x')
+                .text(strava_helper.kudos_all.count.toString() + 'x')
                 .addClass('strava-helper-kudos-all-button-result animated bounce')
         },
 
@@ -43,7 +62,7 @@ strava_helper = (function (strava_helper) {
             ).appendTo('.user-nav')
 
             $('#strava-helper-kudos-all-button').on('click', strava_helper.kudos_all.giveKudosToAll)
-        }
+        },
     }
 
     strava_helper.kudos_all.init()

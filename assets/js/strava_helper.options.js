@@ -1,4 +1,4 @@
-(function (document, chrome) {
+(function (document, chrome, strava_helper) {
 
     var options = {
 
@@ -38,12 +38,20 @@
             add_veloviewer_links: {
                 type: 'checkbox',
                 default: true
+            },
+            floodprotection_interval: {
+                type: 'text',
+                default: 2000
+            },
+            floodprotection_variation: {
+                type: 'text',
+                default: 25
             }
         },
 
         save_options: function () {
             var data = {}
-            for (let setting in options.settings) {
+            for (const setting in options.settings) {
                 if (!options.settings.hasOwnProperty(setting)) {
                     continue
                 }
@@ -71,7 +79,7 @@
 
         get_default_settings: function () {
             var data = {}
-            for (let setting in options.settings) {
+            for (const setting in options.settings) {
                 data[setting] = options.settings[setting].default
             }
             return data
@@ -81,7 +89,7 @@
             chrome.storage.sync.get(
                 options.get_default_settings(),
                 function (items) {
-                    for (let setting in items) {
+                    for (const setting in items) {
                         if (options.settings[setting].type === 'checkbox') {
                             document.getElementById(setting).checked = items[setting]
                         }
@@ -102,4 +110,4 @@
 
     options.init()
 
-}(document, chrome))
+}(document, chrome, strava_helper))
