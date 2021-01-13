@@ -9,10 +9,16 @@ strava_helper = (function (strava_helper, document) {
         },
 
         removeUpsellLinks: function () {
-            $('.premium.opt-group').remove()
-            $('.upsell').remove()
-            $('.relative-effort-upsell').remove()
-            $('li.upgrade').remove()
+            [
+                '.premium.opt-group',
+                '.upsell',
+                '.relative-effort-upsell',
+                '.matched-activities-upsell',
+                '#segments-upsell',
+                'li.upgrade',
+            ].forEach(function (selector) {
+                $(selector).remove()
+            })
         },
 
         removeClubJoinsFromFeed: function () {
@@ -23,8 +29,18 @@ strava_helper = (function (strava_helper, document) {
             $('div.enhanced-tag', 'div.activity')
                 .filter(
                     (idx, elem) => {
-                        console.log(idx, $(elem).text(), $(elem))
                         return null !== $(elem).text().match(/zwift/i)
+                    }
+                )
+                .parents('div.activity')
+                .remove()
+        },
+
+        removePelotonActivitiesFromFeed: function () {
+            $('div.enhanced-tag', 'div.activity')
+                .filter(
+                    (idx, elem) => {
+                        return null !== $(elem).text().match(/peloton/i)
                     }
                 )
                 .parents('div.activity')
@@ -113,6 +129,9 @@ strava_helper = (function (strava_helper, document) {
                     }
                     if (items.remove_zwift_activities_from_feed !== false) {
                         strava_helper.cleanup.removeZwiftActivitiesFromFeed()
+                    }
+                    if (items.remove_peloton_activities_from_feed !== false) {
+                        strava_helper.cleanup.removePelotonActivitiesFromFeed()
                     }
                     if (items.remove_commutes_from_feed !== false) {
                         strava_helper.cleanup.removeCommutes()
